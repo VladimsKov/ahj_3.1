@@ -1,11 +1,12 @@
 // TODO: write code here
-import createField from './createField';
-import intervalActive from './intervalActive';
+import Field from './createField';
+import ActivePos from './activePos';
 
 document.addEventListener('DOMContentLoaded', () => {
-  let activeId = createField();
-  const timerId = setInterval(() => {
-    activeId = intervalActive(activeId);
-  }, 500);
-  setTimeout(() => clearInterval(timerId), 5000);
+  const field = new Field(8);
+
+  field.timerId = setInterval(() => {
+    ActivePos.changePlace(field);
+  }, 1000);
+  setTimeout(() => clearInterval(field.timerId), 15000);
 });
