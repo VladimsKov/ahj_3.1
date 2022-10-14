@@ -8,8 +8,10 @@ export default class Field {
     this.renderActiveItem();
     this.timerId = '';
     this.clicker = new Clicker();
+    this.renderInfoFields();
     this.field.addEventListener('click', (event) => {
       this.clicker.clickHandler(event.target, this);
+      this.infoCounts();
     });
   }
 
@@ -26,5 +28,24 @@ export default class Field {
   renderActiveItem() {
     this.activeId = Math.floor(Math.random() * 16);
     this.field.children[this.activeId].classList.add('field-item_active');
+  }
+
+  renderInfoFields() {
+    this.infoFields = document.createElement('div');
+    this.infoFields.classList.add('info-block');
+    this.infoFields.insertAdjacentHTML('afterbegin',
+      `<p>Кол-во баллов: <span>${0}</span></p>
+    <p>Кол-во неудачных попыток: <span>${0}</span></p>`);
+    this.field.after(this.infoFields);
+  }
+
+  infoCounts() {
+    this.infoFields.children[0].lastElementChild.innerText = this.clicker.win;
+    this.infoFields.children[1].lastElementChild.innerText = this.clicker.loss;
+    if (this.clicker.loss === 5) {
+      this.infoFields.insertAdjacentHTML(
+        'beforeend', 'Игра проиграна',
+      );
+    }
   }
 }
